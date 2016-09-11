@@ -1,4 +1,5 @@
 # minimax
+```
 function MINIMAX(N) is
 begin
 if N is deep enough then
@@ -10,7 +11,8 @@ return min{MINIMAX(N1), .., MINIMAX(Nm)}
 else
 return max{MINIMAX(N1), .., MINIMAX(Nm)}
 end MINIMAX;
-
+```
+```
 minimax(player,board)
     if(game over in current board position)
         return winner
@@ -19,3 +21,4 @@ minimax(player,board)
         return maximal score of calling minimax on all the children
     else (min's turn)
         return minimal score of calling minimax on all the children
+```
