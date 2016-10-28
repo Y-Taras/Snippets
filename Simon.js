@@ -26,41 +26,50 @@ document.addEventListener("DOMContentLoaded", function () {
         strictMode ? strictInd.style.backgroundColor = "#FF0000" :
             strictInd.style.backgroundColor = "#850000";
     });
-    if (checkOn.checked) {
-        var randIndexArr = getRandArray();
-    }
-
     function getRandArray() {
         var array = [];
         for (var i = 0; i < 22; i++) {
-            array[i] = Math.floor(Math.random() * 4 + 1);
+            array[i] = Math.floor(Math.random() * 4);
         }
         return array;
     }
 
-    function checkSound(level, randIndexArr) {
+    function checkSound(randIndexArr) {
+        var result = true;
         var counter = 0;
-        var checkArr = randIndexArr.slice(0, (level + 1));
         for (var i = 0; i < 4; i++) {
             buttonArray[i].addEventListener("click", function (e) {
-                if (+(this.dataset.sound) !== checkArr[counter]) {
-                    return false;
+                changeColor(this.dataset.sound);
+                if (+(this.dataset.sound) !== randIndexArr[counter]) {
+                    result = false;
+                    return;
                 }
                 counter++;
             })
         }
-        if (counter === level) {
-            return true;
+        return result;
+    }
+
+    function changeColor(index) {
+        var oldColor = buttonArray[index].style.backgroundColor;
+
+        function setOldColor() {
+            buttonArray[index].style.backgroundColor = oldColor;
         }
+
+        buttonArray[index].style.backgroundColor = oldColor.replace("36", "72");
+        setTimeout(setOldColor, 1500);
     }
 
     function playGame() {
         var randIndexArr = getRandArray();
         for (var i = 0; i <= 22; i++) {
             for (var j = 0; j <= i; j++) {
+                gameCount.innerHTML = i + 1;
                 soundArray[randIndexArr[j]].play();
+                changeColor(randIndexArr[j]);
                 if (j === i) {
-                    if (!(checkSound(j, randIndexArr))) {
+                    if (!(checkSound(randIndexArr))) {
                         if (strictMode) {
                             i = j = 0;
                         }
